@@ -1,8 +1,8 @@
 "use client";
-import SideBar from "@/app/platform/(admin)/templates/SideBar";
 import { Box } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
+import SideBar from "./templates/SideBar";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [platformQueryClient] = useState(() => new QueryClient());

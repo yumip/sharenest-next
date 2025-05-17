@@ -1,9 +1,10 @@
-export enum Status {
+export enum ItemStatus {
   Available = "available",
   Borrowed = "borrowed",
-  OverDue = "overdue",
+  Overdue = "overdue",
   Unavailable = "unavailable",
   Removed = "removed",
+  Reserved = "reserved",
 }
 
 export interface Item {
@@ -11,9 +12,9 @@ export interface Item {
   groupId: string;
   name: string;
   category: string;
-  status: Status;
+  status: ItemStatus;
   description?: string;
   imageUrl?: string;
   borrower?: { id: string; name: string };
-  dueDate?: Date;
+  readonly dueDate?: Date;
 }

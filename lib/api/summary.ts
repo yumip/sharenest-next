@@ -10,7 +10,7 @@ export const fetchSummaryByGroupId = async ({
   console.log(groupId, "fetchSummaryByGroupId");
   const getSummaryRequest = RequestFactory.createRequest(
     METHOD_TYPE.GET,
-    `api/dashboard/summary/${groupId}`,
+    `api/${groupId}/dashboard/summary`,
   );
   return fetch(getSummaryRequest).then((response) => response.json());
 };

@@ -1,37 +1,29 @@
 import React from "react";
-import {
-  useFormContext,
-  useFieldArray,
-  useController,
-  FieldPath,
-  FieldValues,
-} from "react-hook-form";
 import { GridRenderEditCellParams } from "@mui/x-data-grid";
 import { TextField } from "@mui/material";
+import { useArrayFieldControllerByFormId } from "@/lib/hooks/general/useArrayFieldControllerByformId";
 
-type DataGridEditCellProps<T extends FieldValues> = {
+type DataGridEditCellProps<TItem> = {
   params: GridRenderEditCellParams;
   type?: React.InputHTMLAttributes<unknown>["type"];
 };
 
-export function DataGridEditCell<T extends FieldValues>({
+
+export function DataGridEditCell<TItem>({
   params,
   type = "text",
-}: DataGridEditCellProps<T>) {
-  const { control } = useFormContext<T>();
-  const { fields } = useFieldArray<T>({ control, name: "rows" });
+}: DataGridEditCellProps<TItem>) {
 
-  const fieldIndex = fields.findIndex((row) => row.id === params.id);
+ const controller = useArrayFieldControllerByFormId({
+  formId: params.row.formId,
+  fieldName: String(params.field),
+});
 
-  if (fieldIndex === -1) return null;
-
-  const fieldPath =
-    `rows.${fieldIndex}.${String(params.field)}` as FieldPath<T>;
-
-  const {
+if (!controller) return null;
+const {
     field,
     fieldState: { error },
-  } = useController({ name: fieldPath, control });
+  } = controller;
 
   return (
     <TextField
@@ -41,6 +33,9 @@ export function DataGridEditCell<T extends FieldValues>({
       fullWidth
       error={!!error}
       helperText={error?.message}
+      onChangeCapture={(field.onChange)}
+      value={field.value ?? ''}
+      variant="filled"
     />
   );
 }

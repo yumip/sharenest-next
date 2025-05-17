@@ -87,13 +87,9 @@ app/
 └── sitemap.ts // Sitemap for SEO and indexing
 ```plaintext
 
-yaml
-Copy
-Edit
-
 ---
 
-## 🧱 Project Bootstrap
+## 🧱 Project Bootstra
 
 This project was originally bootstrapped using the [Vercel Platforms Starter](https://github.com/vercel/platforms) as a base template. Some configurations, routing structure, and layout patterns have been adapted directly from this boilerplate to accelerate MVP development.
 

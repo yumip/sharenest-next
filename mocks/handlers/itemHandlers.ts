@@ -1,11 +1,11 @@
 import { http, HttpResponse } from "msw";
 import { mockItems } from "../data/items";
-import { Item, Status } from "@/shared/types/item";
+import { Item, ItemStatus } from "@/shared/types/item";
 
 const items = mockItems;
 export const itemHandlers = [
   // GET /api/items/:groupId
-  http.get("/api/items/:groupId", ({ params, request }) => {
+  http.get("/api/:groupId/items", ({ params, request }) => {
     const url = new URL(request.url);
     const { groupId } = params;
     console.log(groupId);
@@ -33,7 +33,7 @@ export const itemHandlers = [
   }),
 
   // POST /api/items
-  http.post("/api/items/:groupId", async ({ request }) => {
+  http.post("/api/:groupId/items", async ({ request }) => {
     const newItem = (await request.json()) as Partial<Item>;
 
     if (!newItem.name || !newItem.category) {
@@ -48,7 +48,7 @@ export const itemHandlers = [
       groupId: newItem.groupId ?? "group-123",
       name: newItem.name,
       category: newItem.category,
-      status: Status.Available,
+      status: ItemStatus.Available,
       description: newItem.description ?? "",
       imageUrl: newItem.imageUrl ?? "",
       borrower: { id: "u2", name: "Mimi Tan" },
@@ -60,7 +60,7 @@ export const itemHandlers = [
   }),
 
   // PATCH /api/items/:id
-  http.patch("/api/items/:groupId/:id", async ({ params, request }) => {
+  http.patch("/api/:groupId/items/:id", async ({ params, request }) => {
     const { id } = params;
     const updates = (await request.json()) as Partial<Item>;
 

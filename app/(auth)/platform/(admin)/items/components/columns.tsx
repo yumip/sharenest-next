@@ -2,6 +2,10 @@ import { GridColDef } from "@mui/x-data-grid";
 import DeleteButton from "../../templates/DeleteButton";
 import ItemDetailsFormModal from "../forms/ItemDetailsFormModal";
 import BorrowerCell from "./BorrewerCell";
+import { DataGridEditCell } from "@/shared/components/atoms/DataGridEditCell";
+import { ItemFormShape } from "@/shared/features/items/schema/itemFormSchema";
+import { DataGridSelectCell } from "@/shared/components/atoms/DataGridSelectCell";
+import { ItemStatus } from "@/shared/types/item";
 
 export const columns: GridColDef[] = [
   {
@@ -10,6 +14,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     editable: true,
     minWidth: 150,
+    renderEditCell: (params) => <DataGridEditCell<ItemFormShape> params={params} />,
   },
   {
     field: "category",
@@ -17,6 +22,7 @@ export const columns: GridColDef[] = [
     editable: true,
     flex: 1,
     minWidth: 120,
+    renderEditCell: (params) => <DataGridEditCell<ItemFormShape> params={params} />,
   },
   {
     field: "status",
@@ -26,12 +32,13 @@ export const columns: GridColDef[] = [
     minWidth: 120,
     type: "singleSelect",
     valueOptions: [
-      "available",
-      "borrowed",
-      "reserved",
-      "overdue",
-      "unavailable",
+      { value: ItemStatus.Available, label: "Available" },
+      { value: ItemStatus.Borrowed, label: "Borrowed" },
+      { value: ItemStatus.Reserved, label: "Reserved" },
+      { value: ItemStatus.Overdue, label: "Overdue" },
+      { value: ItemStatus.Unavailable, label: "Unavailable" },
     ],
+    renderEditCell: (params) => <DataGridSelectCell<ItemFormShape> params={params} />,
   },
   {
     field: "borrower",

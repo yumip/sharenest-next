@@ -1,14 +1,10 @@
 import React from "react";
 import {
-  useFormContext,
-  useController,
-  useFieldArray,
   FieldValues,
-  FieldPath,
 } from "react-hook-form";
-import { GridRenderEditCellParams, ValueOptions } from "@mui/x-data-grid";
+import { GridRenderEditCellParams, GridSingleSelectColDef, ValueOptions } from "@mui/x-data-grid";
 import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import { UserForm } from "@/shared/features/users/schema/userFormSchema";
+import { useArrayFieldControllerByFormId } from "@/lib/hooks/general/useArrayFieldControllerByformId";
 
 type DataGridSelectEditCellProps<T extends FieldValues> = {
   params: GridRenderEditCellParams;
@@ -17,24 +13,19 @@ type DataGridSelectEditCellProps<T extends FieldValues> = {
 export function DataGridSelectCell<T extends FieldValues>({
   params,
 }: DataGridSelectEditCellProps<T>) {
-  const { control } = useFormContext<UserForm>();
-  const { fields } = useFieldArray<UserForm>({ control, name: "rows" });
-
-  const fieldIndex = fields.findIndex((row) => row.id === params.id);
-  if (fieldIndex === -1) return null;
-
-  const name = `rows.${fieldIndex}.${String(params.field)}` as FieldPath<T>;
-
+   const controller = useArrayFieldControllerByFormId({
+    formId: params.row.formId,
+    fieldName: String(params.field),
+  });
+  
+  if (!controller) return null;
   const {
-    field,
-    fieldState: { error },
-  } = useController({ name, control });
-
-  const rawOptions = params.row.valueOptions;
-  console.log(rawOptions);
+      field,
+      fieldState: { error },
+    } = controller;
+  const rawOptions = (params.colDef as GridSingleSelectColDef).valueOptions;
   const options: ValueOptions[] =
     typeof rawOptions === "function" ? rawOptions(params) : rawOptions || [];
-  console.log(rawOptions(params), "rawOptions(params)");
   return (
     <Select
       {...field}

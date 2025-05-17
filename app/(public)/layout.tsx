@@ -4,11 +4,6 @@ import TopBar from "./components/TopBar";
 import { getSiteData } from "@/lib/fetchers";
 import { Metadata } from "next";
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  import("@/mocks").then(({ startMockServiceWorker }) => {
-    startMockServiceWorker();
-  });
-}
 export async function generateMetadata({
   params,
 }: {

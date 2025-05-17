@@ -1,4 +1,4 @@
-import { Item, Status } from "@/shared/types/item";
+import { Item, ItemStatus } from "@/shared/types/item";
 
 export const mockItems: Item[] = [
   {
@@ -6,7 +6,7 @@ export const mockItems: Item[] = [
     groupId: "cassiegroup",
     name: "Cordless Drill",
     category: "Tools",
-    status: Status.Borrowed,
+    status: ItemStatus.Borrowed,
     description: "18V cordless drill with two batteries and charger.",
     imageUrl: "/images/cordless-drill.jpg",
     borrower: { id: "u2", name: "Mimi Tan" },
@@ -17,7 +17,7 @@ export const mockItems: Item[] = [
     groupId: "cassiegroup",
     name: "Lawn Mower",
     category: "Garden",
-    status: Status.Available,
+    status: ItemStatus.Available,
     description: "Electric push lawn mower with grass catcher.",
     imageUrl: "/images/lawn-mower.jpg",
   },
@@ -26,7 +26,7 @@ export const mockItems: Item[] = [
     groupId: "cassiegroup",
     name: "Camping Stove",
     category: "Camping",
-    status: Status.OverDue,
+    status: ItemStatus.Overdue,
     description: "Portable two-burner camping stove with propane tank.",
     imageUrl: "/images/camping-stove.jpg",
     borrower: { id: "u2", name: "Mimi Tan" },
@@ -37,7 +37,7 @@ export const mockItems: Item[] = [
     groupId: "cassiegroup",
     name: "Projector",
     category: "Electronics",
-    status: Status.Unavailable,
+    status: ItemStatus.Unavailable,
     description: "1080p portable projector (under repair).",
     imageUrl: "/images/projector.jpg",
   },
@@ -46,7 +46,7 @@ export const mockItems: Item[] = [
     groupId: "cassiegroup",
     name: "Bubble Machine",
     category: "Party",
-    status: Status.Borrowed,
+    status: ItemStatus.Borrowed,
     description: "Automatic bubble machine for kids' parties.",
     imageUrl: "/images/bubble-machine.jpg",
     borrower: { id: "u2", name: "Mimi Tan" },

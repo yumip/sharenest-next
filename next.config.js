@@ -10,13 +10,6 @@ module.exports = {
   images: {
     remotePatterns: [],
   },
-  debug: true,
-  callbacks: {
-    async signIn(user, account, profile) {
-      console.log("SIGN IN CALLBACK", { user, account, profile });
-      return true;
-    },
-  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       // next server build => ignore msw/browser

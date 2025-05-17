@@ -1,5 +1,4 @@
 "use client";
-// mocks/index.ts
 import { itemHandlers } from "./handlers/itemHandlers";
 import { userHandlers } from "./handlers/userHandlers";
 import { domainHandlers } from "./handlers/domainHandlers";

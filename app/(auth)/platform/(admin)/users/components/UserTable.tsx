@@ -1,51 +1,60 @@
 "use client";
 import Table from "../../templates/Table";
-import { columns, UserFormShape } from "./columns";
+import { columns } from "./columns";
 import UserForm from "./NewUserForm";
 import { useFetchUsersByGroupId } from "@/lib/hooks/queries/user";
-import { Skeleton } from "@mui/material";
-import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import { FieldArray, FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { useGridEditHandlers } from "@/shared/components/templates/useGridEditHandlers";
-import { DevTool } from "@hookform/devtools";
 import { usePatchUser } from "@/lib/hooks/mutations/user";
+import { PatchUserRequest } from "@/shared/features/users/schema/userTypes";
+import { mapFetchUserToFormRow, mapFormRowToPatchUser } from "@/shared/features/users/utils/mappers";
+import { useEffect } from "react";
+import { UserFormShape } from "@/shared/features/users/schema/userFormSchema";
 
 export default function UserTable() {
   const { data } = useFetchUsersByGroupId({ groupId: "cassiegroup" });
-
   const updateUserMutation = usePatchUser();
+
   const methods = useForm<UserFormShape>({
-    defaultValues: { rows: data },
+    defaultValues: { rows: [] },
     mode: "onBlur",
   });
-  const { control, trigger } = methods;
+  const { control, trigger, reset, getValues } = methods;
   const { fields, update } = useFieldArray({
     control,
     name: "rows",
   });
-  console.log(fields);
-  const { processRowUpdate } = useGridEditHandlers(
-    fields,
+  const { processRowUpdate } = useGridEditHandlers<
+  FieldArray<UserFormShape, 'rows'>,
+  PatchUserRequest                               
+>(
     update,
     trigger,
+    getValues,
     updateUserMutation,
+    mapFormRowToPatchUser
   );
-  if (!data) return <Skeleton />;
+
+  useEffect(() => {
+    if (data?.length) {
+        const defaultValues = data.map(row =>  mapFetchUserToFormRow(row)) as Object[];
+      reset({ rows: defaultValues });
+    }
+  }, [data, reset]);
 
   return (
-    <FormProvider {...methods}>
+     <FormProvider {...methods}>
       <Table
         title={"Users"}
-        items={data}
+        fields={fields}
         columns={columns}
         disableColumnFilter={false}
         showToolbar={true}
         processRowUpdate={processRowUpdate}
-        // onCellEditStop={(params, event) => onCellEditStop(params, event)}
         createForm={
           <UserForm defaultValues={undefined} onSubmit={() => console.log} />
         }
       />
-      <DevTool control={control} />
     </FormProvider>
   );
 }

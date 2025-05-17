@@ -1,14 +1,7 @@
-"use client";
 import "@/styles/globals.css";
 import { Providers } from "./providers";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
-
-if (process.env.NODE_ENV === "development") {
-  import("@/mocks").then(({ startMockServiceWorker }) => {
-    startMockServiceWorker();
-  });
-}
 
 const inter = Inter({
   subsets: ["latin"],

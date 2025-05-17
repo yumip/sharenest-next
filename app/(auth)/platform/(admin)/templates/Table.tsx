@@ -3,17 +3,17 @@
 import {
   DataGrid,
   GridColDef,
-  GridEventListener,
   GridRowId,
   GridRowParams,
   MuiEvent,
 } from "@mui/x-data-grid";
 import { Box, Typography, Skeleton } from "@mui/material";
 import AddButton from "./AddButton";
+import { FieldArray } from "react-hook-form";
+import { FormWithRows } from "@/shared/types/form";
 
 type tableProps = {
   title: string;
-  items: Object[];
   columns: GridColDef[];
   href?: string;
   onRowClick?: (
@@ -25,6 +25,8 @@ type tableProps = {
   hideFooter?: boolean;
   loading?: boolean;
   showToolbar?: boolean;
+  rows?: object[];
+  fields?: FieldArray<FormWithRows, "rows">[];
   createForm?: React.ReactNode;
   processRowUpdate?: (
     newRow: any,
@@ -37,10 +39,11 @@ type tableProps = {
 
 export default function Table({
   title,
-  items,
   columns,
   onRowClick,
   processRowUpdate,
+  fields,
+  rows,
   hideFooter = true,
   disableColumnFilter = true,
   loading = false,
@@ -48,6 +51,7 @@ export default function Table({
   showToolbar = false,
   createForm,
 }: tableProps) {
+  console.log(fields, "fields")
   return (
     <Box sx={{ height: 400, width: "100%", mt: 2 }}>
       <Box
@@ -70,17 +74,17 @@ export default function Table({
         </Box>
       ) : (
         <DataGrid
-          rows={items}
           columns={columns}
+          rows={fields ?? rows}
           hideFooter={hideFooter}
           disableColumnFilter={disableColumnFilter}
           disableColumnMenu
+          getRowId={(row) => row.formId} 
           processRowUpdate={processRowUpdate}
           onRowClick={onRowClick}
-          editMode="cell"
+          editMode="row"
           pageSizeOptions={pageSizeOptions}
           showToolbar={showToolbar}
-          getRowId={(row) => row.id}
           sx={{
             "& .MuiDataGrid-cell": { py: 1 },
             borderRadius: 2,

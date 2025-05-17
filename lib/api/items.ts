@@ -16,10 +16,10 @@ export const fetchItemsByGroupId = async ({
 }): Promise<Item[]> => {
   const getAllItemsRequest = RequestFactory.createRequest(
     METHOD_TYPE.GET,
-    `api/items/${groupId}${queryString ? queryString : ""}`,
+    `api/${groupId}/items/${queryString ? queryString : ""}`,
   );
   console.log(queryString);
-  console.log(`api/items/${groupId}${queryString ? queryString : ""}`);
+  console.log(`api/${groupId}/items/${queryString ? queryString : ""}`);
   return fetch(getAllItemsRequest).then((response) => response.json());
 };
 
@@ -31,7 +31,7 @@ export const createItem = ({
   const { groupId } = createItemRequest;
   const request = RequestFactory.createRequest<Item>(
     METHOD_TYPE.POST,
-    `api/items/${groupId}}`,
+    `api/${groupId}/items`,
     {
       body: JSON.stringify(createItemRequest),
     },
@@ -48,7 +48,7 @@ export const updateItem = ({
   const { groupId, id } = updateItemRequest;
   const request = RequestFactory.createRequest<Item>(
     METHOD_TYPE.PATCH,
-    `api/items/${groupId}/${id}`,
+    `api/${groupId}/items/${id}`,
     {
       body: JSON.stringify(updateItemRequest),
     },

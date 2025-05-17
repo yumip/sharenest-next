@@ -6,3 +6,7 @@ export type FormArrayFormValues<
 };
 
 export type FormValues<T> = FormArrayFormValues<T, "rows">;
+
+export type FormWithRows = {
+  rows: Object[];
+}

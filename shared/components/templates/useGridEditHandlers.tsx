@@ -1,43 +1,36 @@
-import { UserFormShape } from "@/app/platform/(admin)/users/components/columns";
-import { mapFormRowToPatchUser } from "@/shared/features/users/utils/mapFormRowToPatchUser";
 import {
-  GridCellEditStopParams,
-  GridCellEditStopReasons,
   GridRowId,
 } from "@mui/x-data-grid";
 import { UseMutationResult } from "@tanstack/react-query";
 import {
-  FieldArrayWithId,
   UseFieldArrayUpdate,
   UseFormTrigger,
 } from "react-hook-form";
 
-export function useGridEditHandlers<T extends { id: GridRowId }>(
-  fields: T[],
+export function useGridEditHandlers<TFormRow, TEntity extends { id: GridRowId }>(
   update: UseFieldArrayUpdate<any>,
   trigger: UseFormTrigger<any>,
-  mutation: UseMutationResult<any, unknown, T, unknown>,
+  getValues: () => { rows: TFormRow[] },
+  mutation: UseMutationResult<any, unknown, TEntity, unknown>,
+  mapRow: (row: TFormRow) => TEntity
 ) {
-  const processRowUpdate = async (newRow: T, oldRow: T): Promise<T> => {
-    const index = fields.findIndex((row) => row.id === newRow.id);
+  const processRowUpdate = async (newRow: TFormRow, oldRow: TFormRow): Promise<TFormRow> => {
+    const index = getValues().rows.findIndex((row: any) => row.formId === (newRow as any).formId);
     if (index === -1) return oldRow;
+    const updatedRow = {...oldRow, ...getValues().rows[index]}
+    update(index, updatedRow);
 
-    update(index, newRow);
     const isValid = await trigger(`rows.${index}`);
     if (!isValid) return oldRow;
 
     try {
-      const patchUser = mapFormRowToPatchUser(
-        newRow as FieldArrayWithId<UserFormShape, "rows", "id">,
-      );
-
-      await mutation.mutateAsync(patchUser);
+      const entityRow = mapRow(updatedRow);
+      await mutation.mutateAsync(entityRow);
     } catch (err) {
-      console.error("Mutation failed:", err);
       return oldRow; // Revert on error
     }
 
-    return newRow;
+    return updatedRow;
   };
 
   return { processRowUpdate };

@@ -1,12 +1,11 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import BorrowedItemMetric from "./BorrowedItemMetric";
 import DeleteButton from "../../templates/DeleteButton";
 import { DataGridEditCell } from "@/shared/components/atoms/DataGridEditCell";
-import { UserForm } from "@/shared/features/users/schema/userFormSchema";
+import { UserFormShape } from "@/shared/features/users/schema/userFormSchema";
 import { DataGridSelectCell } from "@/shared/components/atoms/DataGridSelectCell";
-import { FormValues } from "@/shared/types/form";
 
-export type UserFormShape = FormValues<UserForm>;
+
 export const columns: GridColDef[] = [
   {
     field: "firstName",
@@ -14,7 +13,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     minWidth: 150,
     editable: true,
-    renderEditCell: (params) => <DataGridEditCell params={params} />,
+    renderEditCell: (params) => <DataGridEditCell<UserFormShape> params={params} />,
   },
   {
     field: "lastName",
@@ -22,9 +21,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     minWidth: 150,
     editable: true,
-    renderEditCell: (params) => (
-      <DataGridEditCell<UserFormShape> params={params} />
-    ),
+    renderEditCell: (params) => <DataGridEditCell<UserFormShape> params={params} />,
   },
   {
     field: "email",
@@ -32,9 +29,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     minWidth: 200,
     editable: true,
-    renderEditCell: (params) => (
-      <DataGridEditCell<UserFormShape> params={params} />
-    ),
+    renderEditCell: (params) => <DataGridEditCell<UserFormShape> params={params} />,
   },
   {
     field: "mobile",
@@ -42,9 +37,7 @@ export const columns: GridColDef[] = [
     flex: 1,
     minWidth: 200,
     editable: true,
-    renderEditCell: (params) => (
-      <DataGridEditCell<UserFormShape> params={params} />
-    ),
+    renderEditCell: (params) => <DataGridEditCell<UserFormShape> params={params} />,
   },
   {
     field: "role",
@@ -56,9 +49,7 @@ export const columns: GridColDef[] = [
       { value: "admin", label: "Admin" },
       { value: "user", label: "User" },
     ],
-    renderEditCell: (params) => (
-      <DataGridSelectCell<UserFormShape> params={params} />
-    ),
+    renderEditCell: (params) => <DataGridSelectCell<UserFormShape> params={params} />,
   },
   {
     field: "status",
@@ -70,9 +61,7 @@ export const columns: GridColDef[] = [
       { value: "active", label: "Active" },
       { value: "inactive", label: "Inactive" },
     ],
-    renderEditCell: (params) => (
-      <DataGridSelectCell<UserFormShape> params={params} />
-    ),
+    renderEditCell: (params) => <DataGridSelectCell<UserFormShape> params={params} />,
   },
   {
     field: "borrowedItems",

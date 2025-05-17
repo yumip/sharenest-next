@@ -12,7 +12,7 @@ export const fetchUsersByGroupId = async ({
 }): Promise<User[]> => {
   const getAllUsersRequest = RequestFactory.createRequest(
     METHOD_TYPE.GET,
-    `api/users/${groupId}${queryString ? queryString : ""}`,
+    `api/${groupId}/users/${queryString ? queryString : ""}`,
   );
   return fetch(getAllUsersRequest).then((response) => response.json());
 };
@@ -25,7 +25,7 @@ export const createUser = ({
   const { groupId } = createUserRequest;
   const request = RequestFactory.createRequest<User>(
     METHOD_TYPE.POST,
-    `api/users/${groupId}`,
+    `api/${groupId}/users`,
     {
       body: JSON.stringify(createUserRequest),
     },
@@ -42,7 +42,7 @@ export const updateUser = ({
   const { groupId, id } = updateUserRequest;
   const request = RequestFactory.createRequest<User>(
     METHOD_TYPE.PATCH,
-    `api/users/${groupId}/${id}`,
+    `api/${groupId}/users/${id}`,
     {
       body: JSON.stringify(updateUserRequest),
     },

@@ -1,11 +1,11 @@
-import { http, HttpResponse } from "msw";
+import { bypass, http, HttpResponse } from "msw";
 import { mockUsers } from "../data/users";
 import { User } from "@/shared/types/user";
 
 const users = mockUsers;
 export const userHandlers = [
   // GET /api/users
-  http.get("/api/users/:groupId", ({ params }) => {
+  http.get("/api/:groupId/users/", ({ params }) => {
     const { groupId } = params;
 
     const usersByGroup = users.filter((user) => user.groupId === groupId);
@@ -14,7 +14,7 @@ export const userHandlers = [
   }),
 
   // POST /api/users
-  http.post("/api/users/:groupId", async ({ request }) => {
+  http.post("/api/:groupId/users/", async ({ request }) => {
     const newUser = (await request.json()) as Partial<User>;
 
     if (!newUser.email) {
@@ -25,7 +25,7 @@ export const userHandlers = [
     }
 
     const user: User = {
-      id: newUser.id ?? `user-${Date.now()}`,
+      id: `user-${Date.now()}`,
       groupId: newUser.groupId ?? "group-123",
       firstName: newUser.firstName ?? "Cassie",
       lastName: newUser.lastName ?? "Admin",
@@ -41,23 +41,26 @@ export const userHandlers = [
   }),
 
   // PATCH /api/items/:id
-  http.patch("/api/users/:groupId/:id", async ({ params, request }) => {
+  http.patch("/api/:groupId/users/:id", async ({ params, request }) => {
     const { id } = params;
-    const updates = (await request.json()) as Partial<User>;
-
-    if (!updates || typeof updates !== "object") {
-      return HttpResponse.json(
-        { error: "Invalid request body" },
-        { status: 400 },
-      );
-    }
-
+    const patchUser = (await request.json()) as Partial<User>;
+    console.log(id, "id")
     const index = users.findIndex((i) => i.id === id);
     if (index === -1) {
       return HttpResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
-    users[index] = { ...users[index], ...updates };
+    users[index] ={
+      ...users[index], 
+      firstName: patchUser.firstName ?? users[index].firstName,
+      lastName: patchUser.lastName ?? users[index].lastName,
+      email: patchUser.email ?? users[index].email,
+      mobile: patchUser.mobile ?? users[index].mobile,
+      status: patchUser.status ?? users[index].status,
+      role: patchUser.role ?? users[index].role,
+    };
+
+    users[index] = { ...users, ...users[index] };
     return HttpResponse.json(users[index]);
   }),
 ];
