@@ -1,16 +1,14 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Table from "../../templates/Table";
 import { columns } from "./columns";
 import ItemForm from "../forms/components/NewItemForm";
 import { useFetchItemsByGroupId } from "@/lib/hooks/queries/item";
 import { useEffect } from "react";
-import { Item } from "@/shared/types/item";
 import { usePatchItem } from "@/lib/hooks/mutations/item";
 import { ItemFormShape } from "@/shared/features/items/schema/itemFormSchema";
 import { FieldArray, FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { useGridEditHandlers } from "@/shared/components/templates/useGridEditHandlers";
-import { UserFormShape } from "@/shared/features/users/schema/userFormSchema";
+import { useGridEditHandlers } from "@/shared/hooks/rhf/useGridEditHandlers";
 import { PatchItemRequest } from "@/shared/features/items/schema/itemTypes";
 import { mapFetchItemToFormRow, mapFormRowToPatchItem } from "@/shared/features/items/utils/mappers";
 

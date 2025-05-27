@@ -4,7 +4,7 @@ import { columns } from "./columns";
 import UserForm from "./NewUserForm";
 import { useFetchUsersByGroupId } from "@/lib/hooks/queries/user";
 import { FieldArray, FormProvider, useFieldArray, useForm } from "react-hook-form";
-import { useGridEditHandlers } from "@/shared/components/templates/useGridEditHandlers";
+import { useGridEditHandlers } from "@/shared/hooks/rhf/useGridEditHandlers";
 import { usePatchUser } from "@/lib/hooks/mutations/user";
 import { PatchUserRequest } from "@/shared/features/users/schema/userTypes";
 import { mapFetchUserToFormRow, mapFormRowToPatchUser } from "@/shared/features/users/utils/mappers";

@@ -51,7 +51,6 @@ export default function Table({
   showToolbar = false,
   createForm,
 }: tableProps) {
-  console.log(fields, "fields")
   return (
     <Box sx={{ height: 400, width: "100%", mt: 2 }}>
       <Box

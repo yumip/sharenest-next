@@ -4,7 +4,7 @@ import {
 } from "react-hook-form";
 import { GridRenderEditCellParams, GridSingleSelectColDef, ValueOptions } from "@mui/x-data-grid";
 import { Select, MenuItem, SelectChangeEvent } from "@mui/material";
-import { useArrayFieldControllerByFormId } from "@/lib/hooks/general/useArrayFieldControllerByformId";
+import { useArrayFieldControllerByFormId } from "@/shared/hooks/rhf/useArrayFieldControllerByformId";
 
 type DataGridSelectEditCellProps<T extends FieldValues> = {
   params: GridRenderEditCellParams;

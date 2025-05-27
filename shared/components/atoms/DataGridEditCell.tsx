@@ -1,7 +1,7 @@
 import React from "react";
 import { GridRenderEditCellParams } from "@mui/x-data-grid";
 import { TextField } from "@mui/material";
-import { useArrayFieldControllerByFormId } from "@/lib/hooks/general/useArrayFieldControllerByformId";
+import { useArrayFieldControllerByFormId } from "@/shared/hooks/rhf/useArrayFieldControllerByformId";
 
 type DataGridEditCellProps<TItem> = {
   params: GridRenderEditCellParams;
